@@ -1,0 +1,10 @@
+.card-box {
+  display: flex;
+  width: 80vw;
+  height: fit-content;
+
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
