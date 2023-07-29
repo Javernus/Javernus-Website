@@ -1,6 +1,6 @@
 import Card from '../../components/card'
 import CardBox from '../../components/cardBox'
-import FloatingLink from '../../components/floating-link'
+import FloatingLink from '../../components/link'
 
 import style from './style.module.scss'
 

@@ -1,4 +1,5 @@
 import type { MouseEventHandler } from 'react'
+
 import style from './style.module.scss'
 
 const FloatingLink = ({
