@@ -11,6 +11,7 @@
   --primary-50: 242, 118, 118;
 
   --primary-old: #8e0b11;
+  --f: #1a1e21;
 
   --neutral-900: 26, 30, 33;
   --neutral-800: 46, 48, 49;
@@ -26,6 +27,11 @@
 
 * {
   font-family: 'Quicksand', sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
 }
 
 body {

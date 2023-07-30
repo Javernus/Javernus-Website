@@ -1,12 +1,14 @@
+import type { ReactNode } from 'react'
+
 import { Outlet } from 'react-router-dom'
 
 import Navigation from '../../components/navigation'
 
-const Page = ({ menuItems }: { menuItems: { title: string; href: string }[] }) => {
+const Page = ({ children, menuItems }: { menuItems: { title: string; href: string }[]; children?: ReactNode }) => {
   return (
     <div>
       <Navigation menuItems={menuItems} />
-      <Outlet />
+      {children ? children : <Outlet />}
     </div>
   )
 }
