@@ -18,6 +18,7 @@ import {
 
 const Rotor = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const [inputValue, setInputValue] = useState<string>('[1, 0, 0]')
 
   const [currentMousePositionX, setCurrentMousePositionX] = useState<number>(0)
 
@@ -42,6 +43,8 @@ const Rotor = () => {
   }, [autoRotate, rotationVector])
 
   const onVectorChange = (event: ReactChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value)
+
     try {
       const vector: number[] = JSON.parse((event.target as HTMLInputElement)?.value).map((value: string) =>
         parseFloat(value)
@@ -96,7 +99,7 @@ const Rotor = () => {
         </p>
         <p className={contextContainer__text}>Choose a vector around which to rotate.</p>
         <div className={contextContainer__inputContainer}>
-          <input className={contextContainer__input} onChange={onVectorChange} type="text" value="[1,0,0]" />
+          <input className={contextContainer__input} onChange={onVectorChange} type="text" value={inputValue} />
           <p
             className={contextContainer__autoRotateButton}
             onClick={() => {
