@@ -37,7 +37,11 @@
     "forceConsistentCasingInFileNames": true,
     "verbatimModuleSyntax": true,
 		"exactOptionalPropertyTypes": true,
+
+    "declaration": true,
+    "declarationMap": true,
+    "declarationDir": "types"
   },
-  "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": ["src", "types", "vite.config.ts", "./src/declaration.d.ts"],
+  "references": [{ "path": "./tsconfig.node.json" }],
 }

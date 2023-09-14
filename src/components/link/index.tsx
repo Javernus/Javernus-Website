@@ -1,6 +1,6 @@
 import type { MouseEventHandler } from 'react'
 
-import style from './style.module.scss'
+import { floatingLink, floatingLink__dot, floatingLink__dotWrapper, floatingLink__label } from './style.module.scss'
 
 const FloatingLink = ({
   label,
@@ -10,11 +10,11 @@ const FloatingLink = ({
   onClick?: MouseEventHandler<HTMLDivElement> | undefined
 }) => {
   return (
-    <div className={style['floating-link']} onClick={onClick}>
-      <div className={style['floating-link__dot-wrapper']}>
-        <div className={style['floating-link__dot']} />
+    <div className={floatingLink} onClick={onClick}>
+      <div className={floatingLink__dotWrapper}>
+        <div className={floatingLink__dot} />
       </div>
-      <p className={style['floating-link__label']}>{label}</p>
+      <p className={floatingLink__label}>{label}</p>
     </div>
   )
 }

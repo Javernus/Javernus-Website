@@ -2,7 +2,14 @@ import cl from 'clsx'
 import { useEffect, useRef } from 'react'
 import { Link, matchRoutes, useLocation } from 'react-router-dom'
 
-import style from './style.module.scss'
+import {
+  navigation,
+  navigation__item,
+  navigation__itemActive,
+  navigation__logo,
+  navigation__logoItem,
+  navigationVisible,
+} from './style.module.scss'
 
 const Navigation = ({ menuItems }: { menuItems: { title: string; href: string }[] }) => {
   const useActivePath = () => {
@@ -21,8 +28,8 @@ const Navigation = ({ menuItems }: { menuItems: { title: string; href: string }[
 
     const isMouseOnTop = e.clientY < document.documentElement.clientHeight / 3
 
-    navigationReference.current.className = cl(style['navigation'], {
-      [style['navigation--visible'] as string]: isMouseOnTop,
+    navigationReference.current.className = cl(navigation, {
+      [navigationVisible]: isMouseOnTop,
     })
   }
 
@@ -32,10 +39,10 @@ const Navigation = ({ menuItems }: { menuItems: { title: string; href: string }[
   }, [])
 
   return (
-    <ul className={style['navigation']} ref={navigationReference}>
-      <Link to="/" className={cl(style['navigation__item'], style['navigation__logo-item'])}>
+    <ul className={navigation} ref={navigationReference}>
+      <Link to="/" className={cl(navigation__item, navigation__logoItem)}>
         <li>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" className={style['navigation__logo']}>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" className={navigation__logo}>
             <path d="M392.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6zm80.6 120.1c-12.5 12.5-12.5 32.8 0 45.3L562.7 256l-89.4 89.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l112-112c12.5-12.5 12.5-32.8 0-45.3l-112-112c-12.5-12.5-32.8-12.5-45.3 0zm-306.7 0c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 45.3l112 112c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l89.4-89.4c12.5-12.5 12.5-32.8 0-45.3z" />
           </svg>
         </li>
@@ -43,9 +50,8 @@ const Navigation = ({ menuItems }: { menuItems: { title: string; href: string }[
       {menuItems.map(item => (
         <Link
           to={item.href}
-          className={cl(style['navigation__item'], {
-            [style['navigation__item--active'] as string]:
-              activePath === item.href || (!activePath && item.href === '/home'),
+          className={cl(navigation__item, {
+            [navigation__itemActive]: activePath === item.href || (!activePath && item.href === '/home'),
           })}
         >
           <li key={item.href}>{item.title}</li>

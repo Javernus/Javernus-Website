@@ -2,7 +2,7 @@ import { type ReactNode, useEffect, useRef } from 'react'
 
 import { isMouseInsideElement } from '../../utilities/mouse'
 
-import style from './style.module.scss'
+import { cardBox } from './style.module.scss'
 
 const CardBox = ({ children }: { children: ReactNode }) => {
   const cardBoxReference = useRef<HTMLDivElement>(null)
@@ -24,7 +24,7 @@ const CardBox = ({ children }: { children: ReactNode }) => {
   }, [])
 
   return (
-    <div className={style['card-box']} ref={cardBoxReference}>
+    <div className={cardBox} ref={cardBoxReference}>
       {children}
     </div>
   )

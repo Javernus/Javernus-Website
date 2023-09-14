@@ -2,7 +2,7 @@ import { type ReactNode, useEffect, useRef } from 'react'
 
 import { getRelativeMousePosition, setMousePosition } from '../../utilities/mouse'
 
-import style from './style.module.scss'
+import { card, card__glint } from './style.module.scss'
 
 const Card = ({ backgroundImage, children }: { backgroundImage?: string; children: ReactNode }) => {
   const cardReference = useRef<HTMLDivElement>(null)
@@ -21,9 +21,9 @@ const Card = ({ backgroundImage, children }: { backgroundImage?: string; childre
   }, [])
 
   return (
-    <div className={style['card']} ref={cardReference} style={{ backgroundImage }}>
+    <div className={card} ref={cardReference} style={{ backgroundImage }}>
       {children}
-      <div className={style['card__glint']} />
+      <div className={card__glint} />
     </div>
   )
 }
