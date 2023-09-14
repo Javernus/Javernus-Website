@@ -14,6 +14,7 @@ const menuItems = [
   { title: 'Home', href: '/home' },
   { title: 'About', href: '/about' },
   { title: 'Contact', href: '/contact' },
+  { title: 'Rotors', href: '/rotors' },
 ]
 
 const router = createBrowserRouter([

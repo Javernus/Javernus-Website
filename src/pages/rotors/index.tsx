@@ -38,7 +38,7 @@ const Rotor = () => {
 
     RotorInitBuffers(g, rotationVector)
 
-    RotorMain(g, size, autoRotate)
+    RotorMain(g, size)
   }, [autoRotate, rotationVector])
 
   const onVectorChange = (event: ReactChangeEvent<HTMLInputElement>) => {
@@ -91,10 +91,10 @@ const Rotor = () => {
       <div className={contextContainer}>
         <p className={contextContainer__text}>
           A rotor is capable of rotating objects over a plane. This can be visualised by drawing the perpendicular
-          vector to the plane. Because it is possible to choose <i>any</i>* plane, it is possible to rotate objects in
-          any direction, without encountering gimbal lock. *(0, 0, 0) excepted.
+          vector to the plane. Because it is possible to choose <i>any</i> plane (or vector), it is possible to rotate
+          objects in any direction, without encountering gimbal lock.
         </p>
-        <p className={contextContainer__text}>Choose vector around which to rotate.</p>
+        <p className={contextContainer__text}>Choose a vector around which to rotate.</p>
         <div className={contextContainer__inputContainer}>
           <input className={contextContainer__input} onChange={onVectorChange} type="text" value="[1,0,0]" />
           <p
@@ -103,7 +103,7 @@ const Rotor = () => {
               setAutoRotate(!autoRotate)
             }}
           >
-            {autoRotate ? 'Auto rotate on' : 'Auto rotate off'}
+            Reset rotation
           </p>
         </div>
       </div>

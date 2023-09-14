@@ -192,22 +192,16 @@ function RotorRenderLoop(
   rotation: number,
   buffers: RotorBuffers,
   matrices: Matrices,
-  program: Program,
-  autoRotate = true
+  program: Program
 ) {
-  if (autoRotate) {
-    window.setTimeout(() => RotorRenderLoop(gl, size, rotation + 0.005, buffers, matrices, program), 1000 / 60)
-  } else {
-    window.setTimeout(() => RotorRenderLoop(gl, size, rotation, buffers, matrices, program), 1000 / 60)
-  }
+  window.setTimeout(() => RotorRenderLoop(gl, size, rotation, buffers, matrices, program), 1000 / 60)
 
-  RotorDrawGLScene(gl, size, rotation, buffers, matrices, program)
+  RotorDrawGLScene(gl, size, 0.5, buffers, matrices, program)
 }
 
 export function RotorMain(
   gl: WebGLRenderingContext | null | undefined,
   size: { width: number; height: number },
-  autoRotate = true,
   rotation = 0
 ): { buffers: RotorBuffers; matrices: Matrices; program: Program } {
   let buffers: RotorBuffers = {
@@ -239,7 +233,7 @@ export function RotorMain(
 
   const program = RotorInitGL(gl, size, matrices)
   buffers = RotorInitBuffers(gl, rotationVector)
-  RotorRenderLoop(gl, size, rotation, buffers, matrices, program, autoRotate)
+  RotorRenderLoop(gl, size, rotation, buffers, matrices, program)
 
   return { buffers, matrices, program }
 }
