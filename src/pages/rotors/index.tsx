@@ -64,7 +64,7 @@ const Rotor = () => {
               setAutoRotate(!autoRotate)
             }}
           >
-            Reset rotation
+            {autoRotate ? 'Stop' : 'Start'} automatic rotation
           </p>
         </div>
       </div>
