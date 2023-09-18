@@ -5,9 +5,6 @@ settings:
   excludeLinksFromLockfile: false
 
 devDependencies:
-  '@react-hooks-library/core':
-    specifier: ^0.5.1
-    version: 0.5.1(react@18.2.0)
   '@types/react':
     specifier: ^18.2.15
     version: 18.2.17
@@ -26,9 +23,6 @@ devDependencies:
   clsx:
     specifier: ^2.0.0
     version: 2.0.0
-  core:
-    specifier: link:@types/react-hooks-library/core
-    version: link:@types/react-hooks-library/core
   eslint:
     specifier: ^8.45.0
     version: 8.45.0
@@ -1887,19 +1881,6 @@ packages:
       open: 9.1.0
       picocolors: 1.0.0
       tslib: 2.6.1
-    dev: true
-
-  /@react-hooks-library/core@0.5.1(react@18.2.0):
-    resolution: {integrity: sha512-YVXPeopEuXb9UR/YCaRfRgsDi/2K7OahdI+XHqT7WX8l706f73egbsOpicNEYAI+pfvOjr5XblPGJV/LJMrL7Q==}
-    peerDependencies:
-      react: '>=16.9.0'
-    dependencies:
-      '@react-hooks-library/shared': 0.5.1
-      react: 18.2.0
-    dev: true
-
-  /@react-hooks-library/shared@0.5.1:
-    resolution: {integrity: sha512-pBX36Yh7dwIMQWx3m4zUCM7ytdTb+X+KAWE00ZOgBWSr7JRiRhRntFXIfdj0R/osQo4PdbDS4bf6SeodkUE/5Q==}
     dev: true
 
   /@remix-run/router@1.7.2:
