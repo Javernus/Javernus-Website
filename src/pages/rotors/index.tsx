@@ -1,11 +1,10 @@
-import type { Vector } from './data/types'
+import type { Bivector, Vector } from './data/types'
 import type { ChangeEvent as ReactChangeEvent } from 'react'
 
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 
-import { normalise } from './data/bivector'
-import { RotorInitBuffers } from './data/buffers'
-import { RotorMain } from './main'
+import { bivectorFromVector, normalise } from './data/bivector'
+import GlCanvas from './canvas'
 
 import {
   contextContainer,
@@ -13,34 +12,16 @@ import {
   contextContainer__input,
   contextContainer__inputContainer,
   contextContainer__text,
-  glCanvas as glCanvasStyle,
 } from './style.module.scss'
 
 const Rotor = () => {
-  const canvasRef = useRef<HTMLCanvasElement>(null)
   const [inputValue, setInputValue] = useState<string>('[1, 0, 0]')
 
-  const [currentMousePositionX, setCurrentMousePositionX] = useState<number>(0)
-
   const [autoRotate, setAutoRotate] = useState<boolean>(true)
-  const [rotate, setRotate] = useState<boolean>(false)
-  const [rotation, setRotation] = useState<number>(0)
-  const [rotationVector, setRotationVector] = useState<Vector>([1, 0, 0])
-  // const [rotationBivector, setRotationBivector] = useState<Bivector>(bivectorFromVector(rotationVector))
-
-  useEffect(() => {
-    if (!canvasRef.current) return
-
-    const g = canvasRef.current.getContext('webgl')
-
-    if (!g) return
-
-    const size = { width: canvasRef.current.clientWidth, height: canvasRef.current.clientHeight }
-
-    RotorInitBuffers(g, rotationVector)
-
-    RotorMain(g, size)
-  }, [autoRotate, rotationVector])
+  const [rotation, setRotation] = useState<{ bivector: Bivector; vector: Vector }>({
+    bivector: bivectorFromVector([1, 0, 0]),
+    vector: [1, 0, 0],
+  })
 
   const onVectorChange = (event: ReactChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value)
@@ -53,43 +34,20 @@ const Rotor = () => {
       if (vector.length !== 3) return
       if (vector.some(value => isNaN(value))) return
 
-      setRotationVector(normalise(vector) as Vector)
-      // setRotationBivector(bivectorFromVector(rotationVector.map((v, i) => v * (i === 1 ? -1 : 1)) as Vector))
+      setRotation({
+        vector: normalise(vector) as Vector,
+        bivector: bivectorFromVector(vector.map((v, i) => v * (i === 1 ? -1 : 1)) as Vector),
+      })
 
-      setRotation(0)
+      // setReloadNumber(reloadNumber + 1)
     } catch (error) {
       return
     }
   }
 
-  const rotorMouseDown = (event: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
-    setCurrentMousePositionX(event.clientX)
-    setRotate(true)
-  }
-
-  const rotorMouseMove = (event: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
-    if (!rotate) return
-
-    const delta = event.clientX - currentMousePositionX
-    setRotation(rotation + delta)
-    setCurrentMousePositionX(event.clientX)
-  }
-
-  const rotorMouseUp = () => {
-    setRotate(false)
-  }
-
   return (
     <>
-      <canvas
-        ref={canvasRef}
-        onMouseDown={rotorMouseDown}
-        onMouseMove={rotorMouseMove}
-        onMouseUp={rotorMouseUp}
-        className={glCanvasStyle}
-        width="800"
-        height="600"
-      ></canvas>
+      <GlCanvas autoRotate={autoRotate} rotationVector={rotation.vector} rotationBivector={rotation.bivector} />
 
       <div className={contextContainer}>
         <p className={contextContainer__text}>

@@ -9,20 +9,15 @@
  *
  */
 
-import type { Bivector, Matrices, Matrix4, Program, RotorBuffers, Vector } from './data/types'
+import type { Bivector, Matrices, Matrix4, Program, RotorBuffers } from './data/types'
 
 import { m4 } from 'twgl.js'
 
 import { axisIndices } from './data/axis'
-import { bivectorFromVector } from './data/bivector'
-import { RotorInitBuffers } from './data/buffers'
 import { Rotor } from './data/rotor'
 import shaderFrag from './data/shader.frag'
 import shaderVert from './data/shader.vert'
 import { teapotIndices } from './data/teapot'
-
-const rotationVector: Vector = [1.0, 0.0, 0.0]
-const rotationBivector: Bivector = bivectorFromVector(rotationVector)
 
 const RotorInitGL = (
   gl: WebGLRenderingContext | null | undefined,
@@ -90,7 +85,7 @@ const RotorInitGL = (
   return program as Program
 }
 
-function DrawRotatedTeapotRotor(rotation: number, matrices: Matrices) {
+function DrawRotatedTeapotRotor(rotation: number, rotationBivector: Bivector, matrices: Matrices) {
   const rotor = new Rotor()
   rotor.fromPlaneAngle(rotationBivector, rotation * (Math.PI / 180))
 
@@ -105,13 +100,14 @@ function DrawRotatedTeapotRotor(rotation: number, matrices: Matrices) {
 function RotorDrawRotatedTeapot(
   gl: WebGLRenderingContext,
   rotation: number,
+  rotationBivector: Bivector,
   buffers: RotorBuffers,
   matrices: Matrices,
   program: Program
 ) {
   if (!program) throw new Error('Program is null.')
 
-  matrices.normal = DrawRotatedTeapotRotor(rotation, matrices)
+  matrices.normal = DrawRotatedTeapotRotor(rotation, rotationBivector, matrices)
 
   // Bind matrices and teapot buffers to shaders.
   gl.uniformMatrix4fv(program.cMatrixUniform, false, matrices.camera)
@@ -162,60 +158,37 @@ function RotorDrawRotatedTeapot(
 function RotorDrawTeapots(
   gl: WebGLRenderingContext,
   rotation: number,
+  rotationBivector: Bivector,
   buffers: RotorBuffers,
   matrices: Matrices,
   program: Program
 ) {
-  const mvMat = m4.identity()
+  matrices.modelView = m4.identity() as Matrix4
   // Translate Teapot to 0.0, 0.0, 0.0 (Used to illustrate how to translate).
-  m4.translate(mvMat, [15.0, 0.0, 0.0], mvMat)
-  RotorDrawRotatedTeapot(gl, rotation, buffers, matrices, program)
+  m4.translate(matrices.modelView, [15.0, 0.0, 0.0], matrices.modelView) as Matrix4
+  RotorDrawRotatedTeapot(gl, rotation, rotationBivector, buffers, matrices, program)
 }
 
-function RotorDrawGLScene(
+export const RotorDrawGLScene = (
   gl: WebGLRenderingContext,
   size: { width: number; height: number },
   rotation: number,
+  rotationBivector: Bivector,
   buffers: RotorBuffers,
   matrices: Matrices,
   program: Program
-) {
+) => {
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
   gl.viewport(0, 0, size.width, size.height)
 
-  RotorDrawTeapots(gl, rotation, buffers, matrices, program)
-}
-
-function RotorRenderLoop(
-  gl: WebGLRenderingContext,
-  size: { width: number; height: number },
-  rotation: number,
-  buffers: RotorBuffers,
-  matrices: Matrices,
-  program: Program
-) {
-  window.setTimeout(() => RotorRenderLoop(gl, size, rotation, buffers, matrices, program), 1000 / 60)
-
-  RotorDrawGLScene(gl, size, 0.5, buffers, matrices, program)
+  RotorDrawTeapots(gl, rotation, rotationBivector, buffers, matrices, program)
 }
 
 export function RotorMain(
   gl: WebGLRenderingContext | null | undefined,
   size: { width: number; height: number },
-  rotation = 0
-): { buffers: RotorBuffers; matrices: Matrices; program: Program } {
-  let buffers: RotorBuffers = {
-    teapotVertexBuffer: null,
-    teapotNormalBuffer: null,
-    teapotColorBuffer: null,
-    teapotIndexBuffer: null,
-
-    axisVertexBuffer: null,
-    axisNormalBuffer: null,
-    axisColorBuffer: null,
-    axisIndexBuffer: null,
-  }
-
+  createNewProgram: boolean
+): { matrices: Matrices; program: Program } {
   const matrices: Matrices = {
     camera: m4.identity() as Matrix4,
     perspective: m4.identity() as Matrix4,
@@ -228,12 +201,11 @@ export function RotorMain(
   // Only continue if WebGL is available and working
   if (!gl) {
     alert('Unable to initialize WebGL. Your browser or machine may not support it.')
-    return { buffers, matrices, program: null }
+    return { matrices, program: null }
   }
 
-  const program = RotorInitGL(gl, size, matrices)
-  buffers = RotorInitBuffers(gl, rotationVector)
-  RotorRenderLoop(gl, size, rotation, buffers, matrices, program)
+  const program = createNewProgram ? RotorInitGL(gl, size, matrices) : null
+  // RotorRenderLoop(gl, size, rotation, buffers, matrices, program)
 
-  return { buffers, matrices, program }
+  return { matrices, program }
 }
