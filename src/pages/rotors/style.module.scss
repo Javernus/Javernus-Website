@@ -2,9 +2,10 @@
   display: block;
   margin: auto;
   margin-top: 15rem;
-  width: 800px;
+  width: 1000px;
   border-radius: 1rem;
   max-width: 90vw;
+  aspect-ratio: calc(4 / 3);
 }
 
 .contextContainer {

@@ -75,10 +75,12 @@ const RotorInitGL = (
   program.mvMatrixUniform = gl.getUniformLocation(program, 'uMVMatrix')
   program.nMatrixUniform = gl.getUniformLocation(program, 'uNMatrix')
 
-  m4.lookAt([15.0, 12.0, 25.0], [15.0, 0.0, 0.0], [0.0, 1.0, 0.0], matrices.camera)
+  m4.lookAt([0.0, 12.0, 25.0], [0.0, 0.0, 0.0], [0.0, 1.0, 0.0], matrices.camera)
   m4.inverse(matrices.camera, matrices.camera)
 
   const aspectRatio = size.width / size.height
+
+  console.log('aspectRatio', aspectRatio, size.width, size.height)
 
   m4.perspective((90.0 / aspectRatio) * (Math.PI / 180), aspectRatio, 0.1, 100.0, matrices.perspective)
 
@@ -164,8 +166,6 @@ function RotorDrawTeapots(
   program: Program
 ) {
   matrices.modelView = m4.identity() as Matrix4
-  // Translate Teapot to 0.0, 0.0, 0.0 (Used to illustrate how to translate).
-  m4.translate(matrices.modelView, [15.0, 0.0, 0.0], matrices.modelView) as Matrix4
   RotorDrawRotatedTeapot(gl, rotation, rotationBivector, buffers, matrices, program)
 }
 
@@ -195,8 +195,6 @@ export function RotorMain(
     modelView: m4.identity() as Matrix4,
     normal: m4.identity() as Matrix4,
   }
-
-  m4.translate(matrices.modelView, [15.0, 0.0, 0.0], matrices.modelView) as Matrix4
 
   // Only continue if WebGL is available and working
   if (!gl) {

@@ -27,13 +27,14 @@ const GlCanvas = ({
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   const [loaded, setLoaded] = useState<boolean>(false)
+  const [timing, setTiming] = useState<number>(0)
   const [rotation, setRotation] = useState<number>(0)
   const [glProgram, setGlProgram] = useState<GlProgram>()
 
   useEffect(() => {
     const renderLoop = () => {
+      setTiming(t => t + 1)
       if (!glProgram) return
-
       setRotation(r => (autoRotate ? r + 0.5 : r))
 
       RotorDrawGLScene(
@@ -47,8 +48,9 @@ const GlCanvas = ({
       )
     }
 
-    setTimeout(renderLoop, 1000 / 60)
-  }, [glProgram, autoRotate, rotation, rotationBivector])
+    setTimeout(renderLoop, 10000 / 60)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timing])
 
   useEffect(() => {
     setRotation(0)
@@ -62,10 +64,9 @@ const GlCanvas = ({
 
       if (!gl) return glP
 
-      const size = { width: canvasRef.current.clientWidth, height: canvasRef.current.clientHeight }
+      const size = { width: 800, height: 600 }
       const buffers = RotorInitBuffers(gl, rotationVector)
       const { matrices, program } = RotorMain(gl, size, true)
-      console.log('rotationVector: ', rotationVector, matrices)
 
       return {
         gl,
@@ -79,7 +80,7 @@ const GlCanvas = ({
     if (!loaded) setLoaded(true)
   }, [loaded, rotationVector, rotationBivector])
 
-  return <canvas ref={canvasRef} className={glCanvasStyle} width="800" height="600"></canvas>
+  return <canvas ref={canvasRef} className={glCanvasStyle} width="800px" height="600px"></canvas>
 }
 
 export default GlCanvas
