@@ -48,7 +48,7 @@ const GlCanvas = ({
       )
     }
 
-    setTimeout(renderLoop, 10000 / 60)
+    setTimeout(renderLoop, 1000 / 60)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timing])
 

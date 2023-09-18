@@ -38,8 +38,6 @@ const Rotor = () => {
         vector: normalise(vector) as Vector,
         bivector: bivectorFromVector(vector.map((v, i) => v * (i === 1 ? -1 : 1)) as Vector),
       })
-
-      // setReloadNumber(reloadNumber + 1)
     } catch (error) {
       return
     }
