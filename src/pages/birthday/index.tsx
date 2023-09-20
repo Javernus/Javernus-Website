@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react'
 
 import BirthdayCalendar from '../../components/birthday/calendar'
+import BirthdayDot from '../../components/birthday/dot'
 import FloatingLink from '../../components/link'
 
-import { birthday } from './style.module.scss'
+import { birthday, birthday__calendar, birthday__dotExplainer, birthday__dotExplainers } from './style.module.scss'
 
 const Birthday = () => {
   const days = 365
-  const people = 50
+  const people = 100
 
   const [filled, setFilled] = useState<{ day: number; count: number }[]>([])
 
@@ -39,7 +40,22 @@ const Birthday = () => {
         Shown are {days} days and {people} people's birthdays, randomly assigned.
       </p>
 
-      <BirthdayCalendar days={days} filled={filled} />
+      <div className={birthday__dotExplainers}>
+        {[
+          { count: 0, title: '0' },
+          { count: 1, title: '1' },
+          { count: 2, title: '2' },
+          { count: 3, title: '3' },
+          { count: 4, title: '4+' },
+        ].map(({ count, title }) => (
+          <div className={birthday__dotExplainer}>
+            <BirthdayDot count={count} />
+            <p>{title} people</p>
+          </div>
+        ))}
+      </div>
+
+      <BirthdayCalendar className={birthday__calendar} days={days} filled={filled} />
 
       <FloatingLink label="Update" onClick={regenerateFilled} />
     </div>

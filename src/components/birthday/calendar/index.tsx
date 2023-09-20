@@ -1,35 +1,29 @@
 import type { CSSProperties } from 'react'
 
-import { birthdayCalendar, birthdayCalendar__dot } from './style.module.scss'
+import cl from 'clsx'
 
-const colours = [
-  'rgb(var(--neutral-700))',
-  'rgb(var(--primary-700))',
-  'rgb(var(--primary-400))',
-  'rgb(var(--primary-300))',
-  'rgb(var(--primary-200))',
-]
+import BirthdayDot from '../dot'
 
-const colourByCount = (count: number) => {
-  return colours[Math.min(count, colours.length - 1)]
-}
+import { birthdayCalendar } from './style.module.scss'
 
-const BirthdayCalendar = ({ days, filled }: { days: number; filled: { day: number; count: number }[] }) => {
+const BirthdayCalendar = ({
+  className,
+  days,
+  filled,
+}: {
+  days: number
+  filled: { day: number; count: number }[]
+  className: string
+}) => {
   return (
     <div
-      className={birthdayCalendar}
+      className={cl(birthdayCalendar, className)}
       style={{ '--horizontal-dot-count': Math.floor(Math.sqrt(days)) } as CSSProperties}
     >
       {Array.from({ length: days }).map((_, i) => {
         const day = i + 1
         const count = filled.find(({ day: filledDay }) => filledDay === day)?.count ?? 0
-        return (
-          <div
-            key={i}
-            className={birthdayCalendar__dot}
-            style={{ '--dot-colour': colourByCount(count) } as CSSProperties}
-          />
-        )
+        return <BirthdayDot key={day} count={count} />
       })}
     </div>
   )

@@ -1,7 +1,34 @@
 .birthday {
+  --dot-size: 1rem;
+
   display: flex;
   flex-direction: column;
   align-items: center;
 
   padding-top: 8rem;
+
+  &__calendar {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  &__dot-explainers {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    width: fit-content;
+  }
+
+  &__dot-explainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    gap: 0.5rem;
+
+    & p {
+      margin: 0;
+    }
+  }
 }
