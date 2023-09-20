@@ -1,0 +1,23 @@
+.birthday-calendar {
+  --horizontal-dot-count: 20;
+
+  --dot-size: 1rem;
+  --dot-spacing: 0.5rem;
+
+  display: flex;
+  width: calc(var(--dot-size) * var(--horizontal-dot-count) + var(--dot-spacing) * (var(--horizontal-dot-count) - 1));
+  height: fit-content;
+
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: var(--dot-spacing);
+
+  &__dot {
+    width: var(--dot-size);
+    height: var(--dot-size);
+
+    border-radius: 50%;
+
+    background-color: var(--dot-colour);
+  }
+}

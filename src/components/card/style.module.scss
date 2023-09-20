@@ -9,6 +9,9 @@
   margin: 2px;
   box-sizing: border-box;
 
+  // Make backgroundImage fit the card
+  background-size: cover;
+
   width: min(20rem, 90vw);
   height: min(16rem, 40vh);
 

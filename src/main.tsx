@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 import Error404 from './pages/404'
 import About from './pages/about'
+import Birthday from './pages/birthday'
 import Home from './pages/home'
 import Rotor from './pages/rotors'
 import PageWrapper from './pages/wrapper'
@@ -14,7 +15,11 @@ const menuItems = [
   { title: 'Home', href: '/home' },
   { title: 'About', href: '/about' },
   { title: 'Contact', href: '/contact' },
-  { title: 'Rotors', href: '/rotors' },
+]
+
+const otherPages = [
+  { path: '/rotors', element: <Rotor /> },
+  { path: '/birthday', element: <Birthday /> },
 ]
 
 const router = createBrowserRouter([
@@ -43,6 +48,7 @@ const router = createBrowserRouter([
         path: '/rotors',
         element: <Rotor />,
       },
+      ...otherPages,
     ],
   },
 ])

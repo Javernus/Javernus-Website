@@ -4,7 +4,7 @@ import { getRelativeMousePosition, setMousePosition } from '../../utilities/mous
 
 import { card, card__glint } from './style.module.scss'
 
-const Card = ({ backgroundImage, children }: { backgroundImage?: string; children: ReactNode }) => {
+const Card = ({ children, imageUrl }: { imageUrl?: string; children: ReactNode }) => {
   const cardReference = useRef<HTMLDivElement>(null)
 
   const onMouseMove = (e: MouseEvent) => {
@@ -21,7 +21,7 @@ const Card = ({ backgroundImage, children }: { backgroundImage?: string; childre
   }, [])
 
   return (
-    <div className={card} ref={cardReference} style={{ backgroundImage }}>
+    <div className={card} ref={cardReference} style={{ backgroundImage: `url("${imageUrl}")` }}>
       {children}
       <div className={card__glint} />
     </div>
