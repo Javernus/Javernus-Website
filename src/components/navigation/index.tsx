@@ -39,8 +39,6 @@ const Navigation = ({ menuItems }: { menuItems: { title: string; href: string }[
     return () => window.removeEventListener('mousemove', onMouseMove)
   }, [])
 
-  console.log(activePath, menuItems.map(({ href }) => href).includes(activePath || '/home'))
-
   return (
     <ul className={navigation} ref={navigationReference}>
       <Link

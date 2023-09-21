@@ -6,10 +6,38 @@
   align-items: center;
 
   padding-top: 8rem;
+  margin-bottom: 2rem;
 
   &__calendar {
     margin-top: 1rem;
     margin-bottom: 1rem;
+  }
+
+  &__input-sliders {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    max-width: 25rem;
+    width: 90vw;
+
+    gap: 1rem;
+
+    margin: 1rem 0 1.5rem 0;
+  }
+
+  &__input-slider {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    width: 100%;
+
+    gap: 0.5rem;
+
+    & p {
+      margin: 0;
+    }
   }
 
   &__dot-explainers {
@@ -30,5 +58,9 @@
     & p {
       margin: 0;
     }
+  }
+
+  &__graph {
+    margin-top: 1rem;
   }
 }

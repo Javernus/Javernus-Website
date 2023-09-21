@@ -80,8 +80,6 @@ const RotorInitGL = (
 
   const aspectRatio = size.width / size.height
 
-  console.log('aspectRatio', aspectRatio, size.width, size.height)
-
   m4.perspective((90.0 / aspectRatio) * (Math.PI / 180), aspectRatio, 0.1, 100.0, matrices.perspective)
 
   return program as Program

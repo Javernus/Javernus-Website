@@ -1,37 +1,59 @@
-import { useEffect, useState } from 'react'
+import { throttle as _throttle } from 'lodash'
+import { useCallback, useEffect, useState } from 'react'
 
 import BirthdayCalendar from '../../components/birthday/calendar'
 import BirthdayDot from '../../components/birthday/dot'
+import DotGraph from '../../components/dot-graph'
 import FloatingLink from '../../components/link'
+import Slider from '../../components/slider'
 
-import { birthday, birthday__calendar, birthday__dotExplainer, birthday__dotExplainers } from './style.module.scss'
+import {
+  birthday,
+  birthday__calendar,
+  birthday__dotExplainer,
+  birthday__dotExplainers,
+  birthday__graph,
+  birthday__inputSlider,
+  birthday__inputSliders,
+} from './style.module.scss'
 
 const Birthday = () => {
-  const days = 365
-  const people = 100
+  const [days, setDays] = useState(365)
+  const [people, setPeople] = useState(23)
 
   const [filled, setFilled] = useState<{ day: number; count: number }[]>([])
 
-  const regenerateFilled = () => {
-    const newFilled: { day: number; count: number }[] = []
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const regenerateFilled = useCallback(
+    _throttle(
+      (dayCount: number, peopleCount: number) => {
+        const newFilled: { day: number; count: number }[] = []
 
-    // Randomly with .95 probability, add a person to a day.
-    for (let i = 0; i < people; i++) {
-      const newDay = Math.floor(Math.random() * days) + 1
+        for (let i = 0; i < peopleCount; i++) {
+          const newDay = Math.floor(Math.random() * dayCount) + 1
 
-      if (newFilled.find(({ day }) => day === newDay)) {
-        newFilled.find(({ day }) => day === newDay)!.count++
-      } else {
-        newFilled.push({ day: newDay, count: 1 })
-      }
-    }
+          if (newFilled.find(({ day }) => day === newDay)) {
+            newFilled.find(({ day }) => day === newDay)!.count++
+          } else {
+            newFilled.push({ day: newDay, count: 1 })
+          }
+        }
 
-    setFilled(newFilled)
-  }
+        setFilled(newFilled)
+      },
+      150,
+      { leading: true, trailing: true }
+    ),
+    []
+  )
 
   useEffect(() => {
-    regenerateFilled()
+    regenerateFilled(days, people)
   }, [])
+
+  useEffect(() => {
+    regenerateFilled(days, people)
+  }, [days, people, regenerateFilled])
 
   return (
     <div className={birthday}>
@@ -39,6 +61,34 @@ const Birthday = () => {
       <p>
         Shown are {days} days and {people} people's birthdays, randomly assigned.
       </p>
+
+      <div className={birthday__inputSliders}>
+        <div className={birthday__inputSlider}>
+          <p>Days</p>
+          <Slider
+            value={days}
+            onChange={d => {
+              setDays(d)
+
+              if (d < people) setPeople(d)
+            }}
+            minimum={1}
+            maximum={500}
+          />
+        </div>
+
+        <div className={birthday__inputSlider}>
+          <p>People</p>
+          <Slider
+            value={people}
+            onChange={p => {
+              setPeople(p)
+            }}
+            minimum={1}
+            maximum={2 * days}
+          />
+        </div>
+      </div>
 
       <div className={birthday__dotExplainers}>
         {[
@@ -57,7 +107,14 @@ const Birthday = () => {
 
       <BirthdayCalendar className={birthday__calendar} days={days} filled={filled} />
 
-      <FloatingLink label="Update" onClick={regenerateFilled} />
+      <FloatingLink label="Update" onClick={() => regenerateFilled(days, people)} />
+
+      <DotGraph
+        className={birthday__graph}
+        dots={filled.map(({ count, day }) => ({ x: day, y: count }))}
+        xRange={{ minimum: 0, maximum: days }}
+        yRange={{ minimum: 0 }}
+      />
     </div>
   )
 }

@@ -1,0 +1,44 @@
+.dot-graph {
+  --dot-graph-width: 20rem;
+  --dot-graph-height: 20rem;
+
+  width: var(--dot-graph-width);
+  height: var(--dot-graph-height);
+
+  position: relative;
+
+  &__dot {
+    position: absolute;
+    bottom: var(--y);
+    left: var(--x);
+
+    width: 0.5rem;
+    height: 0.5rem;
+
+    border-radius: 50%;
+
+    background-color: rgb(var(--primary-400));
+  }
+
+  &__x-zero {
+    position: absolute;
+    top: 0;
+    left: var(--x);
+
+    width: 0.125rem;
+    height: var(--dot-graph-height);
+
+    background-color: rgb(var(--neutral-50));
+  }
+
+  &__y-zero {
+    position: absolute;
+    bottom: var(--y);
+    left: 0;
+
+    width: var(--dot-graph-width);
+    height: 0.125rem;
+
+    background-color: rgb(var(--neutral-50));
+  }
+}
