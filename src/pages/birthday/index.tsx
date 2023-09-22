@@ -15,6 +15,8 @@ import {
   birthday__graph,
   birthday__inputSlider,
   birthday__inputSliders,
+  birthday__calendarAndGraph,
+  birthday__calendarContainer,
 } from './style.module.scss'
 
 const Birthday = () => {
@@ -22,6 +24,38 @@ const Birthday = () => {
   const [people, setPeople] = useState(23)
 
   const [filled, setFilled] = useState<{ day: number; count: number }[]>([])
+
+  const [doubleBirthdayPercentage, setDoubleBirthdayPercentage] = useState<{ x: number; y: number }[]>([])
+
+  const generateGraph = useCallback((dayCount: number) => {
+    const newGraph: { x: number; y: number }[] = []
+
+    const iterateBirthdays = (pCount: number): boolean => {
+      const birthdays: number[] = []
+
+      for (let i = 0; i < pCount; i++) {
+        const newDay = Math.floor(Math.random() * dayCount) + 1
+
+        if (birthdays.includes(newDay)) return true
+
+        birthdays.push(newDay)
+      }
+
+      return false
+    }
+
+    for (let pCount = 1; pCount <= 100; pCount++) {
+      let collisionCount = 0
+
+      for (let i = 0; i < 100; i++) {
+        if (iterateBirthdays(pCount)) collisionCount++
+      }
+
+      newGraph.push({ x: pCount, y: collisionCount })
+    }
+
+    setDoubleBirthdayPercentage(newGraph)
+  }, [])
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const regenerateFilled = useCallback(
@@ -40,6 +74,8 @@ const Birthday = () => {
         }
 
         setFilled(newFilled)
+
+        generateGraph(dayCount)
       },
       150,
       { leading: true, trailing: true }
@@ -90,31 +126,35 @@ const Birthday = () => {
         </div>
       </div>
 
-      <div className={birthday__dotExplainers}>
-        {[
-          { count: 0, title: '0' },
-          { count: 1, title: '1' },
-          { count: 2, title: '2' },
-          { count: 3, title: '3' },
-          { count: 4, title: '4+' },
-        ].map(({ count, title }) => (
-          <div className={birthday__dotExplainer}>
-            <BirthdayDot count={count} />
-            <p>{title} people</p>
+      <div className={birthday__calendarAndGraph}>
+        <div className={birthday__calendarContainer}>
+          <div className={birthday__dotExplainers}>
+            {[
+              { count: 0, title: '0' },
+              { count: 1, title: '1' },
+              { count: 2, title: '2' },
+              { count: 3, title: '3' },
+              { count: 4, title: '4+' },
+            ].map(({ count, title }) => (
+              <div className={birthday__dotExplainer}>
+                <BirthdayDot count={count} />
+                <p>{title} people</p>
+              </div>
+            ))}
           </div>
-        ))}
+
+          <BirthdayCalendar className={birthday__calendar} days={days} filled={filled} />
+
+          <FloatingLink label="Update" onClick={() => regenerateFilled(days, people)} />
+        </div>
+
+        <DotGraph
+          className={birthday__graph}
+          dots={doubleBirthdayPercentage}
+          xProperties={{ title: '# people', minimum: 0, maximum: 100 }}
+          yProperties={{ title: '% of a  wowowowowow double birthday', minimum: 0, maximum: 100 }}
+        />
       </div>
-
-      <BirthdayCalendar className={birthday__calendar} days={days} filled={filled} />
-
-      <FloatingLink label="Update" onClick={() => regenerateFilled(days, people)} />
-
-      <DotGraph
-        className={birthday__graph}
-        dots={filled.map(({ count, day }) => ({ x: day, y: count }))}
-        xRange={{ minimum: 0, maximum: days }}
-        yRange={{ minimum: 0 }}
-      />
     </div>
   )
 }

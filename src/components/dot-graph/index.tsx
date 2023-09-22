@@ -2,7 +2,16 @@ import type { HTMLAttributesAndProps } from '../../utilities/types'
 
 import cl from 'clsx'
 
-import { dotGraph, dotGraph__dot, dotGraph__xZero, dotGraph__yZero } from './style.module.scss'
+import {
+  dotGraph,
+  dotGraph__dot,
+  dotGraph__xLabel,
+  dotGraph__xMaxLabel,
+  dotGraph__xZero,
+  dotGraph__yLabel,
+  dotGraph__yMaxLabel,
+  dotGraph__yZero,
+} from './style.module.scss'
 
 const getMinimum = (dots: { x: number; y: number }[], axis: 'x' | 'y') =>
   dots.reduce((a, nextDot) => Math.min(a, nextDot[axis]), Infinity)
@@ -20,27 +29,30 @@ const getNumber = (options: (number | undefined)[]): number => {
 
 const DotGraph = ({
   dots,
-  xRange,
-  yRange,
+  xProperties,
+  yProperties,
   ...other
 }: HTMLAttributesAndProps<
   HTMLDivElement,
   {
-    xRange: { minimum?: number; maximum?: number }
-    yRange: { minimum?: number; maximum?: number }
+    xProperties: { title: string; minimum?: number; maximum?: number }
+    yProperties: { title: string; minimum?: number; maximum?: number }
     dots: { x: number; y: number }[]
   }
 >) => {
-  const xMinimum = getNumber([xRange.minimum, getMinimum(dots, 'x') - 1])
-  const xMaximum = getNumber([xRange.maximum, getMaximum(dots, 'x') + 1])
+  let xMaximum = getNumber([xProperties.maximum, getMaximum(dots, 'x') + 1])
+  let xMinimum = getNumber([xProperties.minimum, getMinimum(dots, 'x') - 1])
 
-  const yMinimum = getNumber([yRange.minimum, getMinimum(dots, 'y') - 1])
-  const yMaximum = getNumber([yRange.maximum, getMaximum(dots, 'y') + 1])
+  if (xMinimum >= 0) xMinimum = 0
+  else if (xMaximum < 0) xMaximum = 0
 
-  const hasXZero = xMinimum <= 0 && xMaximum >= 0
-  const hasYZero = yMinimum <= 0 && yMaximum >= 0
+  let yMaximum = getNumber([yProperties.maximum, getMaximum(dots, 'y') + 1])
+  let yMinimum = getNumber([yProperties.minimum, getMinimum(dots, 'y') - 1])
 
-  console.log(xMinimum, xMaximum, yMinimum, yMaximum, hasXZero, hasYZero)
+  if (yMaximum >= 0) yMinimum = 0
+  else if (yMaximum < 0) yMaximum = 0
+
+  console.log(xMinimum, xMaximum, yMinimum, yMaximum)
 
   const xZero = (0 - xMinimum) / (xMaximum - xMinimum)
   const yZero = (0 - yMinimum) / (yMaximum - yMinimum)
@@ -49,17 +61,29 @@ const DotGraph = ({
 
   return (
     <div className={cl(dotGraph, className)} {...otherProps}>
-      {hasXZero && <div className={dotGraph__xZero} style={{ '--x': `${xZero * 100}%` } as React.CSSProperties} />}
+      <div className={dotGraph__xZero} style={{ '--x': `${xZero * 100}%` } as React.CSSProperties} />
+      <p className={dotGraph__yLabel} style={{ '--x': `${xZero * 100}%` } as React.CSSProperties}>
+        {yProperties.title}
+      </p>
+      <p className={dotGraph__yMaxLabel} style={{ '--x': `${xZero * 100}%` } as React.CSSProperties}>
+        {yMaximum}
+      </p>
 
-      {hasYZero && <div className={dotGraph__yZero} style={{ '--y': `${yZero * 100}%` } as React.CSSProperties} />}
+      <div className={dotGraph__yZero} style={{ '--y': `${yZero * 100}%` } as React.CSSProperties} />
+      <p className={dotGraph__xLabel} style={{ '--y': `${yZero * 100}%` } as React.CSSProperties}>
+        {xProperties.title}
+      </p>
+      <p className={dotGraph__xMaxLabel} style={{ '--y': `${yZero * 100}%` } as React.CSSProperties}>
+        {xMaximum}
+      </p>
 
       {dots.map(({ x, y }) => (
         <div
           className={dotGraph__dot}
           style={
             {
-              '--x': `${((x - xMinimum) / (xMaximum - xMinimum + 1)) * 100}%`,
-              '--y': `${((y - yMinimum) / (yMaximum - yMinimum + 1)) * 100}%`,
+              '--x': `${((x - xMinimum) / (xMaximum - xMinimum)) * 100}%`,
+              '--y': `${((y - yMinimum) / (yMaximum - yMinimum)) * 100}%`,
             } as React.CSSProperties
           }
         />

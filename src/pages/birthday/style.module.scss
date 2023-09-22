@@ -61,6 +61,18 @@
   }
 
   &__graph {
-    margin-top: 1rem;
+    margin-left: 2.5rem;
+  }
+
+  &__calendar-and-graph {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  &__calendar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 }

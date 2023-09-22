@@ -41,4 +41,39 @@
 
     background-color: rgb(var(--neutral-50));
   }
+
+  &__x-label,
+  &__y-label,
+  &__x-max-label,
+  &__y-max-label {
+    font-size: 0.5rem;
+    color: rgb(var(--neutral-50));
+
+    position: absolute;
+  }
+
+  &__x-label {
+    transform: translate(-0.25rem, 50%);
+    bottom: var(--y);
+    right: 0;
+  }
+
+  &__y-label {
+    transform-origin: 0 0;
+    transform: rotateZ(270deg) translate(calc(-100% + 0.25rem), -100%);
+    top: 0;
+    left: var(--x);
+  }
+
+  &__x-max-label {
+    transform: translate(125%, 125%);
+    right: 0;
+    bottom: var(--y);
+  }
+
+  &__y-max-label {
+    transform: translate(-25%, -200%);
+    top: 0;
+    left: var(--x);
+  }
 }
