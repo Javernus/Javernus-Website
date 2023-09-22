@@ -49,7 +49,7 @@ const DotGraph = ({
   let yMaximum = getNumber([yProperties.maximum, getMaximum(dots, 'y') + 1])
   let yMinimum = getNumber([yProperties.minimum, getMinimum(dots, 'y') - 1])
 
-  if (yMaximum >= 0) yMinimum = 0
+  if (yMinimum >= 0) yMinimum = 0
   else if (yMaximum < 0) yMaximum = 0
 
   console.log(xMinimum, xMaximum, yMinimum, yMaximum)

@@ -10,13 +10,13 @@ import Slider from '../../components/slider'
 import {
   birthday,
   birthday__calendar,
+  birthday__calendarAndGraph,
+  birthday__calendarContainer,
   birthday__dotExplainer,
   birthday__dotExplainers,
   birthday__graph,
   birthday__inputSlider,
   birthday__inputSliders,
-  birthday__calendarAndGraph,
-  birthday__calendarContainer,
 } from './style.module.scss'
 
 const Birthday = () => {
@@ -106,7 +106,7 @@ const Birthday = () => {
             onChange={d => {
               setDays(d)
 
-              if (d < people) setPeople(d)
+              if (d < 2 * people) setPeople(d)
             }}
             minimum={1}
             maximum={500}
@@ -151,8 +151,8 @@ const Birthday = () => {
         <DotGraph
           className={birthday__graph}
           dots={doubleBirthdayPercentage}
-          xProperties={{ title: '# people', minimum: 0, maximum: 100 }}
-          yProperties={{ title: '% of a  wowowowowow double birthday', minimum: 0, maximum: 100 }}
+          xProperties={{ title: '# people', minimum: -5, maximum: 100 }}
+          yProperties={{ title: '% double birthday', minimum: -5, maximum: 100 }}
         />
       </div>
     </div>
