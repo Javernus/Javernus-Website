@@ -25,10 +25,10 @@ const Birthday = () => {
 
   const [filled, setFilled] = useState<{ day: number; count: number }[]>([])
 
-  const [doubleBirthdayPercentage, setDoubleBirthdayPercentage] = useState<{ x: number; y: number }[]>([])
+  const [doubleBirthdayPercentage, setDoubleBirthdayPercentage] = useState<{ x: number; y: number; id: string }[]>([])
 
   const generateGraph = useCallback((dayCount: number) => {
-    const newGraph: { x: number; y: number }[] = []
+    const newGraph: { x: number; y: number; id: string }[] = []
 
     const iterateBirthdays = (pCount: number): boolean => {
       const birthdays: number[] = []
@@ -51,7 +51,7 @@ const Birthday = () => {
         if (iterateBirthdays(pCount)) collisionCount++
       }
 
-      newGraph.push({ x: pCount, y: collisionCount })
+      newGraph.push({ x: pCount, y: collisionCount, id: pCount.toString() })
     }
 
     setDoubleBirthdayPercentage(newGraph)
@@ -82,10 +82,6 @@ const Birthday = () => {
     ),
     []
   )
-
-  useEffect(() => {
-    regenerateFilled(days, people)
-  }, [])
 
   useEffect(() => {
     regenerateFilled(days, people)
@@ -137,15 +133,13 @@ const Birthday = () => {
               { count: 4, title: '4+' },
             ].map(({ count, title }) => (
               <div className={birthday__dotExplainer}>
-                <BirthdayDot count={count} />
+                <BirthdayDot key={count} count={count} />
                 <p>{title} people</p>
               </div>
             ))}
           </div>
 
           <BirthdayCalendar className={birthday__calendar} days={days} filled={filled} />
-
-          <FloatingLink label="Update" onClick={() => regenerateFilled(days, people)} />
         </div>
 
         <DotGraph
@@ -155,6 +149,8 @@ const Birthday = () => {
           yProperties={{ title: '% double birthday', minimum: -5, maximum: 100 }}
         />
       </div>
+
+      <FloatingLink label="Update" onClick={() => regenerateFilled(days, people)} />
     </div>
   )
 }

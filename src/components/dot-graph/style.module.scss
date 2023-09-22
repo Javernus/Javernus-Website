@@ -7,6 +7,9 @@
 
   position: relative;
 
+  margin-right: 2rem;
+  margin-top: 1.5rem;
+
   &__dot {
     position: absolute;
     bottom: var(--y);
@@ -18,6 +21,10 @@
     border-radius: 50%;
 
     background-color: rgb(var(--primary-400));
+
+    transition:
+      bottom 0.5s,
+      left 0.5s;
   }
 
   &__x-zero {
@@ -46,7 +53,7 @@
   &__y-label,
   &__x-max-label,
   &__y-max-label {
-    font-size: 0.5rem;
+    font-size: 0.8rem;
     color: rgb(var(--neutral-50));
 
     position: absolute;

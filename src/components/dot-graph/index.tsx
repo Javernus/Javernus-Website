@@ -37,7 +37,7 @@ const DotGraph = ({
   {
     xProperties: { title: string; minimum?: number; maximum?: number }
     yProperties: { title: string; minimum?: number; maximum?: number }
-    dots: { x: number; y: number }[]
+    dots: { x: number; y: number; id?: string }[]
   }
 >) => {
   let xMaximum = getNumber([xProperties.maximum, getMaximum(dots, 'x') + 1])
@@ -77,8 +77,9 @@ const DotGraph = ({
         {xMaximum}
       </p>
 
-      {dots.map(({ x, y }) => (
+      {dots.map(({ id, x, y }) => (
         <div
+          key={id ? id : `${x},${y}`}
           className={dotGraph__dot}
           style={
             {
