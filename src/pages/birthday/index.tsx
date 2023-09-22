@@ -102,7 +102,7 @@ const Birthday = () => {
             onChange={d => {
               setDays(d)
 
-              if (d < 2 * people) setPeople(d)
+              if (2 * d < people) setPeople(d)
             }}
             minimum={1}
             maximum={500}
