@@ -168,7 +168,10 @@ const Birthday = () => {
           }))}
           xProperties={{ title: '# people', minimum: -5, maximum: 100 }}
           yProperties={{ title: '% double birthday', minimum: -5, maximum: 100 }}
-          lines={[{ x1: people > 100 ? 100 : people, y1: -5, x2: people > 100 ? 100 : people, y2: 105 }]}
+          lines={[
+            { x1: people > 100 ? 100 : people, y1: -5, x2: people > 100 ? 100 : people, y2: 105 },
+            { x1: -5, y1: 50, x2: 105, y2: 50 },
+          ]}
         />
       </div>
 
