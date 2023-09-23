@@ -5,6 +5,7 @@ import cl from 'clsx'
 import {
   dotGraph,
   dotGraph__dot,
+  dotGraph__line,
   dotGraph__xLabel,
   dotGraph__xMaxLabel,
   dotGraph__xZero,
@@ -29,6 +30,7 @@ const getNumber = (options: (number | undefined)[]): number => {
 
 const DotGraph = ({
   dots,
+  lines,
   xProperties,
   yProperties,
   ...other
@@ -37,6 +39,7 @@ const DotGraph = ({
   {
     xProperties: { title: string; minimum?: number; maximum?: number }
     yProperties: { title: string; minimum?: number; maximum?: number }
+    lines?: { x1: number; y1: number; x2: number; y2: number }[]
     dots: { x: number; y: number; id?: string }[]
   }
 >) => {
@@ -51,8 +54,6 @@ const DotGraph = ({
 
   if (yMinimum >= 0) yMinimum = 0
   else if (yMaximum < 0) yMaximum = 0
-
-  console.log(xMinimum, xMaximum, yMinimum, yMaximum)
 
   const xZero = (0 - xMinimum) / (xMaximum - xMinimum)
   const yZero = (0 - yMinimum) / (yMaximum - yMinimum)
@@ -76,6 +77,42 @@ const DotGraph = ({
       <p className={dotGraph__xMaxLabel} style={{ '--y': `${yZero * 100}%` } as React.CSSProperties}>
         {xMaximum}
       </p>
+
+      {lines?.map(({ x1, x2, y1, y2 }) => {
+        const smallX = x1 < x2 ? x1 : x2
+        const largeX = x1 < x2 ? x2 : x1
+        const smallY = y1 < y2 ? y1 : y2
+        const largeY = y1 < y2 ? y2 : y1
+
+        const relativeX1Position = (smallX - xMinimum) / (xMaximum - xMinimum)
+        const relativeX2Position = (largeX - xMinimum) / (xMaximum - xMinimum)
+        const relativeAbsX = Math.abs(relativeX2Position - relativeX1Position)
+
+        const relativeY1Position = (smallY - yMinimum) / (yMaximum - yMinimum)
+        const relativeY2Position = (largeY - yMinimum) / (yMaximum - yMinimum)
+        const relativeAbsY = Math.abs(relativeY2Position - relativeY1Position)
+
+        const relativeLineLength = Math.sqrt(relativeAbsX ** 2 + relativeAbsY ** 2)
+        const lineAngle = -Math.atan2(relativeY2Position - relativeY1Position, relativeX2Position - relativeX1Position)
+
+        return (
+          <div
+            className={dotGraph__line}
+            style={
+              {
+                '--x': `${relativeX1Position * 100}%`,
+                '--y': `${relativeY1Position * 100}%`,
+
+                '--x2': `${relativeX2Position * 100}%`,
+                '--y2': `${relativeY2Position * 100}%`,
+
+                '--angle': `${lineAngle}rad`,
+                '--length': `${relativeLineLength * 100}%`,
+              } as React.CSSProperties
+            }
+          />
+        )
+      })}
 
       {dots.map(({ id, x, y }) => (
         <div

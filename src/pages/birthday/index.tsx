@@ -19,16 +19,22 @@ import {
   birthday__inputSliders,
 } from './style.module.scss'
 
+type GraphData = {
+  data: { x: number; y: number; divideYBy?: number; id: string }[]
+  days: number
+}
+
 const Birthday = () => {
   const [days, setDays] = useState(365)
   const [people, setPeople] = useState(23)
 
   const [filled, setFilled] = useState<{ day: number; count: number }[]>([])
 
-  const [doubleBirthdayPercentage, setDoubleBirthdayPercentage] = useState<{ x: number; y: number; id: string }[]>([])
+  const [doubleBirthdayPercentage, setDoubleBirthdayPercentage] = useState<GraphData>({ data: [], days })
 
-  const generateGraph = useCallback((dayCount: number) => {
-    const newGraph: { x: number; y: number; id: string }[] = []
+  const generateGraph = useCallback((dayCount: number, previousGraph: GraphData) => {
+    const isSameDays = dayCount === previousGraph.days
+    const newGraph: GraphData['data'] = []
 
     const iterateBirthdays = (pCount: number): boolean => {
       const birthdays: number[] = []
@@ -51,16 +57,27 @@ const Birthday = () => {
         if (iterateBirthdays(pCount)) collisionCount++
       }
 
-      newGraph.push({ x: pCount, y: collisionCount, id: pCount.toString() })
+      if (isSameDays) {
+        const previous = previousGraph.data.find(({ x }) => x === pCount) ?? { y: 0, divideYBy: 0 }
+
+        newGraph.push({
+          x: pCount,
+          y: previous.y + collisionCount,
+          divideYBy: (previous.divideYBy ?? 1) + 1,
+          id: pCount.toString(),
+        })
+      } else {
+        newGraph.push({ x: pCount, y: collisionCount, id: pCount.toString() })
+      }
     }
 
-    setDoubleBirthdayPercentage(newGraph)
+    setDoubleBirthdayPercentage({ data: newGraph, days: dayCount })
   }, [])
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const regenerateFilled = useCallback(
     _throttle(
-      (dayCount: number, peopleCount: number) => {
+      (dayCount: number, peopleCount: number, graphData: GraphData) => {
         const newFilled: { day: number; count: number }[] = []
 
         for (let i = 0; i < peopleCount; i++) {
@@ -75,7 +92,7 @@ const Birthday = () => {
 
         setFilled(newFilled)
 
-        generateGraph(dayCount)
+        generateGraph(dayCount, graphData)
       },
       150,
       { leading: true, trailing: true }
@@ -84,7 +101,7 @@ const Birthday = () => {
   )
 
   useEffect(() => {
-    regenerateFilled(days, people)
+    regenerateFilled(days, people, doubleBirthdayPercentage)
   }, [days, people, regenerateFilled])
 
   return (
@@ -102,7 +119,7 @@ const Birthday = () => {
             onChange={d => {
               setDays(d)
 
-              if (2 * d < people) setPeople(d)
+              if (d < people) setPeople(d)
             }}
             minimum={1}
             maximum={500}
@@ -117,7 +134,7 @@ const Birthday = () => {
               setPeople(p)
             }}
             minimum={1}
-            maximum={2 * days}
+            maximum={100}
           />
         </div>
       </div>
@@ -144,13 +161,18 @@ const Birthday = () => {
 
         <DotGraph
           className={birthday__graph}
-          dots={doubleBirthdayPercentage}
+          dots={doubleBirthdayPercentage.data.map(({ divideYBy, id, x, y }) => ({
+            id,
+            x,
+            y: y / (divideYBy ?? 1),
+          }))}
           xProperties={{ title: '# people', minimum: -5, maximum: 100 }}
           yProperties={{ title: '% double birthday', minimum: -5, maximum: 100 }}
+          lines={[{ x1: people > 100 ? 100 : people, y1: -5, x2: people > 100 ? 100 : people, y2: 105 }]}
         />
       </div>
 
-      <FloatingLink label="Update" onClick={() => regenerateFilled(days, people)} />
+      <FloatingLink label="Update" onClick={() => regenerateFilled(days, people, doubleBirthdayPercentage)} />
     </div>
   )
 }

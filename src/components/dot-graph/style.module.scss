@@ -5,7 +5,7 @@
   width: var(--dot-graph-width);
   height: var(--dot-graph-height);
 
-  max-width: 90vw;
+  max-width: 80vw;
   max-height: 90vh;
 
   position: relative;
@@ -25,6 +25,8 @@
 
     background-color: rgb(var(--primary-400));
 
+    transform: translate(-50%, 50%);
+
     transition:
       bottom 0.5s,
       left 0.5s;
@@ -41,6 +43,8 @@
     max-height: 90vh;
 
     background-color: rgb(var(--neutral-50));
+
+    transform: translate(-50%, 0);
   }
 
   &__y-zero {
@@ -51,9 +55,11 @@
     width: var(--dot-graph-width);
     height: 0.125rem;
 
-    max-width: 90vw;
+    max-width: 80vw;
 
     background-color: rgb(var(--neutral-50));
+
+    transform: translate(0, 50%);
   }
 
   &__x-label,
@@ -74,7 +80,7 @@
 
   &__y-label {
     transform-origin: 0 0;
-    transform: rotateZ(270deg) translate(calc(-100% + 0.25rem), -100%);
+    transform: rotateZ(270deg) translate(calc(-100% + 0.25rem), calc(-100% - 0.25rem));
     top: 0;
     left: var(--x);
   }
@@ -86,8 +92,25 @@
   }
 
   &__y-max-label {
-    transform: translate(-25%, -200%);
+    transform: translate(-50%, -200%);
     top: 0;
     left: var(--x);
+  }
+
+  &__line {
+    // draw a line from --x --y to --x2 --y2 (variables defined in the HTML)
+
+    position: absolute;
+    bottom: var(--y);
+    left: var(--x);
+
+    width: var(--length);
+    height: 0.125rem;
+
+    background-color: rgba(var(--primary-400), 0.5);
+    border-radius: 0.0625rem;
+
+    transform-origin: 0 var(--y);
+    transform: rotateZ(var(--angle)) translate(0, -50%);
   }
 }
