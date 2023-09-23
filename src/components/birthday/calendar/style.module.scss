@@ -8,6 +8,8 @@
   width: calc(var(--dot-size) * var(--horizontal-dot-count) + var(--dot-spacing) * (var(--horizontal-dot-count) - 1));
   height: fit-content;
 
+  max-width: 90vw;
+
   flex-direction: row;
   flex-wrap: wrap;
   gap: var(--dot-spacing);
