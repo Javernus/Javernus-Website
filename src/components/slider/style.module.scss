@@ -29,6 +29,7 @@
   }
 
   @mixin thumb {
+    position: relative;
     box-sizing: border-box;
     -webkit-appearance: none;
 
@@ -61,8 +62,6 @@
         inset 0.5rem 0.5rem white,
         inset -0.5rem -0.5rem white;
     }
-
-    // transition: box-shadow 5s ease-in-out;
   }
 
   &::-webkit-slider-thumb {

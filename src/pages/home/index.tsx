@@ -39,7 +39,7 @@ const Home = () => {
               <h2 className={textColourBlack}>
                 The Birthday
                 <br />
-                Paradox
+                Problem
               </h2>
             </div>
           </Card>

@@ -39,8 +39,8 @@ const DotGraph = ({
   {
     xProperties: { title: string; minimum?: number; maximum?: number }
     yProperties: { title: string; minimum?: number; maximum?: number }
-    lines?: { x1: number; y1: number; x2: number; y2: number }[]
-    dots: { x: number; y: number; id?: string }[]
+    lines?: { x1: number; y1: number; x2: number; y2: number; colour?: string; thickness?: string }[]
+    dots: { x: number; y: number; id?: string; colour?: string; size?: string }[]
   }
 >) => {
   let xMaximum = getNumber([xProperties.maximum, getMaximum(dots, 'x') + 1])
@@ -78,7 +78,7 @@ const DotGraph = ({
         {xMaximum}
       </p>
 
-      {lines?.map(({ x1, x2, y1, y2 }) => {
+      {lines?.map(({ colour, thickness, x1, x2, y1, y2 }) => {
         const smallX = x1 < x2 ? x1 : x2
         const largeX = x1 < x2 ? x2 : x1
         const smallY = y1 < y2 ? y1 : y2
@@ -108,13 +108,16 @@ const DotGraph = ({
 
                 '--angle': `${lineAngle}rad`,
                 '--length': `${relativeLineLength * 100}%`,
+
+                '--colour': colour,
+                '--thickness': thickness,
               } as React.CSSProperties
             }
           />
         )
       })}
 
-      {dots.map(({ id, x, y }) => (
+      {dots.map(({ colour, id, size, x, y }) => (
         <div
           key={id ? id : `${x},${y}`}
           className={dotGraph__dot}
@@ -122,6 +125,8 @@ const DotGraph = ({
             {
               '--x': `${((x - xMinimum) / (xMaximum - xMinimum)) * 100}%`,
               '--y': `${((y - yMinimum) / (yMaximum - yMinimum)) * 100}%`,
+              '--colour': colour,
+              '--size': size,
             } as React.CSSProperties
           }
         />

@@ -1,8 +1,11 @@
+// @prop --card-width: 20rem;
+// @prop --card-height: 16rem;
+// @prop --card-flex-direction: row;
+
 .card {
   position: relative;
   display: flex;
-  width: 100%;
-  height: 100%;
+  flex-direction: var(--card-flex-direction, row);
   background-color: rgb(var(--neutral-800));
   border-radius: 0.75rem;
   padding: 0.75rem;
@@ -12,8 +15,10 @@
   // Make backgroundImage fit the card
   background-size: cover;
 
-  width: min(20rem, 90vw);
-  height: min(16rem, 40vh);
+  width: var(--card-width, 20rem);
+  max-width: 90vw;
+  height: var(--card-height, 16rem);
+  max-height: 40vh;
 
   &::before {
     content: '';

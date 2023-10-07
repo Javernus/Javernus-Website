@@ -1,10 +1,11 @@
+import cl from 'clsx'
 import { type ReactNode, useEffect, useRef } from 'react'
 
 import { getRelativeMousePosition, setMousePosition } from '../../utilities/mouse'
 
 import { card, card__glint } from './style.module.scss'
 
-const Card = ({ children, imageUrl }: { imageUrl?: string; children: ReactNode }) => {
+const Card = ({ children, className, imageUrl }: { imageUrl?: string; className?: string; children: ReactNode }) => {
   const cardReference = useRef<HTMLDivElement>(null)
 
   const onMouseMove = (e: MouseEvent) => {
@@ -21,7 +22,7 @@ const Card = ({ children, imageUrl }: { imageUrl?: string; children: ReactNode }
   }, [])
 
   return (
-    <div className={card} ref={cardReference} style={{ backgroundImage: `url("${imageUrl}")` }}>
+    <div className={cl(card, className)} ref={cardReference} style={{ backgroundImage: `url("${imageUrl}")` }}>
       {children}
       <div className={card__glint} />
     </div>

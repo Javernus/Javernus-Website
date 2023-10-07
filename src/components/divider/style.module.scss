@@ -1,0 +1,16 @@
+// @prop --divider-width: 80%;
+// @prop --divider-height: 0.0625rem;
+// @prop --divider-margin: 1rem;
+// @prop --divider-margin-top: var(--divider-margin);
+// @prop --divider-margin-bottom: var(--divider-margin);
+
+.divider {
+  display: flex;
+  width: var(--divider-width, 80%);
+  height: var(--divider-height, 0.0625rem);
+  margin-top: var(--divider-margin-top, var(--divider-margin, 1rem));
+  margin-bottom: var(--divider-margin-bottom, var(--divider-margin, 1rem));
+
+  background-color: rgb(var(--neutral-50));
+  border-radius: calc(0.5 * var(--divider-height, 0.0625rem));
+}

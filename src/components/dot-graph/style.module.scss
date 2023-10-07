@@ -18,12 +18,12 @@
     bottom: var(--y);
     left: var(--x);
 
-    width: 0.5rem;
-    height: 0.5rem;
+    width: var(--size, 0.5rem);
+    height: var(--size, 0.5rem);
 
     border-radius: 50%;
 
-    background-color: rgb(var(--primary-400));
+    background-color: rgb(var(--colour, var(--primary-400)));
 
     transform: translate(-50%, 50%);
 
@@ -105,10 +105,10 @@
     left: var(--x);
 
     width: var(--length);
-    height: 0.125rem;
+    height: var(--thickness, 0.125rem);
 
-    background-color: rgba(var(--primary-400), 0.5);
-    border-radius: 0.0625rem;
+    background-color: rgba(var(--colour, var(--primary-400)), 0.5);
+    border-radius: calc(var(--thickness, 0.125rem) * 0.5);
 
     transform-origin: 0 var(--y);
     transform: rotateZ(var(--angle)) translate(0, -50%);
