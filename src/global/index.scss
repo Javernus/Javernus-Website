@@ -49,7 +49,7 @@ h5,
 h6 {
   color: white;
   font-family: 'Dancing Script', sans-serif;
-  font-weight: 600;
+  letter-spacing: -0.0625rem;
 }
 
 p {
@@ -72,4 +72,12 @@ h3 {
   font:
     normal 1rem 'Quicksand',
     sans-serif;
+}
+
+.katex-display {
+  margin: 0.5rem 0;
+
+  .katex {
+    font-size: 1.25rem;
+  }
 }

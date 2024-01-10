@@ -176,7 +176,9 @@ const Birthday = () => {
         ].map(({ count, title }) => (
           <div className={birthday__dotExplainer}>
             <BirthdayDot key={count} count={count} />
-            <p>{title} people</p>
+            <p>
+              {title} {title === '1' ? 'person' : 'people'}
+            </p>
           </div>
         ))}
       </div>
@@ -248,6 +250,13 @@ const Birthday = () => {
           ]}
         />
       </div>
+
+      <p>
+        <Latex>{`P(${people}, ${days}) = ${(
+          (doubleBirthdayPercentage.data[people - 1]?.y || 0) /
+          (doubleBirthdayPercentage.data[people - 1]?.divideYBy || 1)
+        ).toPrecision(5)}`}</Latex>
+      </p>
 
       <Divider className={birthday__divider} />
 

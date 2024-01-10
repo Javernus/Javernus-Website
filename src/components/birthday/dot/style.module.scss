@@ -5,4 +5,6 @@
   border-radius: 50%;
 
   background-color: var(--dot-colour);
+
+  transition: background-color 0.25s ease-in-out;
 }
