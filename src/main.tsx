@@ -6,6 +6,7 @@ import Error404 from './pages/404'
 import About from './pages/about'
 import Birthday from './pages/birthday'
 import Home from './pages/home'
+import Palette from './pages/palette'
 import Rotor from './pages/rotors'
 import PageWrapper from './pages/wrapper'
 
@@ -20,6 +21,7 @@ const menuItems = [
 const otherPages = [
   { path: '/rotors', element: <Rotor /> },
   { path: '/birthday', element: <Birthday /> },
+  { path: '/palette', element: <Palette /> },
 ]
 
 const router = createBrowserRouter([
@@ -43,10 +45,6 @@ const router = createBrowserRouter([
       {
         path: '/about',
         element: <About />,
-      },
-      {
-        path: '/rotors',
-        element: <Rotor />,
       },
       ...otherPages,
     ],

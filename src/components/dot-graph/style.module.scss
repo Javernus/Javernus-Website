@@ -23,7 +23,7 @@
 
     border-radius: 50%;
 
-    background-color: rgb(var(--colour, var(--primary-400)));
+    background-color: var(--colour, var(--primary-400));
 
     transform: translate(-50%, 50%);
 
@@ -42,7 +42,7 @@
 
     max-height: 90vh;
 
-    background-color: rgb(var(--neutral-50));
+    background-color: var(--neutral-100);
 
     transform: translate(-50%, 0);
   }
@@ -57,7 +57,7 @@
 
     max-width: 80vw;
 
-    background-color: rgb(var(--neutral-50));
+    background-color: var(--neutral-100);
 
     transform: translate(0, 50%);
   }
@@ -67,7 +67,7 @@
   &__x-max-label,
   &__y-max-label {
     font-size: 0.8rem;
-    color: rgb(var(--neutral-50));
+    color: var(--neutral-100);
 
     position: absolute;
   }
@@ -107,7 +107,7 @@
     width: var(--length);
     height: var(--thickness, 0.125rem);
 
-    background-color: rgba(var(--colour, var(--primary-400)), 0.5);
+    background-color: color-mix(in srgb, var(--colour, var(--primary-400)), transparent 50%);
     border-radius: calc(var(--thickness, 0.125rem) * 0.5);
 
     transform-origin: 0 var(--y);

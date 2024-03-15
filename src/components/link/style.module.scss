@@ -69,7 +69,7 @@
     box-sizing: border-box;
     border-width: 1px;
     border-style: solid;
-    border-color: rgb(var(--neutral-400));
+    border-color: var(--neutral-400);
 
     &::before {
       content: '';
@@ -88,7 +88,7 @@
       height: 1.0625rem;
 
       border-width: 3px;
-      border-color: rgb(var(--primary-600));
+      border-color: var(--primary-600);
 
       &::before {
         transform: scale(0.7);
@@ -100,12 +100,12 @@
     }
 
     .floating-link__label {
-      color: rgb(var(--primary-500));
+      color: var(--primary-500);
     }
 
     .floating-link__dot-wrapper::before {
       border-width: 1.5px;
-      border-color: rgba(var(--primary-500), 0.6);
+      border-color: color-mix(in srgb, var(--primary-500), transparent 40%);
       transition-delay: 0.125s;
     }
   }

@@ -18,7 +18,7 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.25rem;
-  background-color: rgb(var(--neutral-800));
+  background-color: var(--neutral-800);
   border-radius: 0.75rem;
 
   & a {
@@ -50,11 +50,11 @@
     color: white;
 
     &:hover {
-      background: rgba(var(--primary-700), 0.5);
+      background: color-mix(in srgb, var(--primary-700), transparent 50%);
     }
 
     &--active {
-      background: rgb(var(--primary-700));
+      background: var(--primary-700);
     }
   }
 

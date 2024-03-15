@@ -61,6 +61,6 @@
 
 .text-colour {
   &--black {
-    color: rgb(var(--neutral-900));
+    color: var(--neutral-900);
   }
 }
