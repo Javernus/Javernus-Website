@@ -1,6 +1,27 @@
-// @prop --card-width: 20rem;
-// @prop --card-height: 16rem;
-// @prop --card-flex-direction: row;
+// @prop --slideshow-item-width: 20rem;
+// @prop --slideshow-item-height: 30rem;
+
+.slideshow-item {
+  position: relative;
+  display: flex;
+  background-color: var(--primary-800);
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+
+  min-width: var(--slideshow-item-width, 18rem);
+  height: var(--slideshow-item-height, 24rem);
+}
+
+.slideshow {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  width: calc(2.5 * var(--slideshow-item-width, 18rem));
+  height: var(--slideshow-item-height, 24rem);
+  border-radius: 0.75rem;
+  box-shadow: 0 0 1rem 0 var(--neutral-900);
+}
 
 .card {
   position: relative;
@@ -23,27 +44,27 @@
   &::before {
     content: '';
     position: absolute;
-    inset: -1.5px;
+    inset: -1px;
     z-index: -1;
 
     background: var(--neutral-700);
-    border-radius: 0.825rem;
+    border-radius: inherit;
   }
 
   &::after {
     content: '';
     position: absolute;
-    inset: -1.5px;
+    inset: -1px;
     z-index: -1;
 
-    border-radius: 0.825rem;
+    border-radius: 0.75rem;
     overflow: hidden;
 
     background: radial-gradient(
       circle at calc(var(--mouse-x) * 1px) calc(var(--mouse-y) * 1px),
-      color-mix(in srgb, var(--neutral-100), transparent 20%) 0,
-      color-mix(in srgb, var(--neutral-200), transparent 50%) 7rem,
-      color-mix(in srgb, var(--neutral-300), transparent 100%) 15rem
+      color-mix(in srgb, var(--neutral-200), transparent 20%) 0,
+      color-mix(in srgb, var(--neutral-300), transparent 50%) 7rem,
+      color-mix(in srgb, var(--neutral-400), transparent 100%) 15rem
     );
 
     opacity: var(--show-card);

@@ -1,4 +1,4 @@
-.home {
+.about {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -9,15 +9,7 @@
 
   padding-top: 8rem;
 
-  background-image: url('./wave-haikei.svg'), url('./layered-waves-haikei.svg');
   background-size: 20vw, 20vw;
 
   background-repeat: repeat-y;
-
-  &__buttons {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    margin-bottom: 20px;
-  }
 }

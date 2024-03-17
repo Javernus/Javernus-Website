@@ -1,0 +1,31 @@
+.photography {
+  --dot-size: 1rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding-top: 8rem;
+  margin-bottom: 2rem;
+
+  & > p {
+    max-width: min(40rem, 90vw);
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+
+    text-align: center;
+  }
+
+  & > p:first-of-type {
+    margin-top: 0;
+  }
+
+  & > p:last-of-type {
+    margin-bottom: 0;
+  }
+
+  &__divider {
+    --divider-width: min(45rem, 92.5vw);
+    --divider-margin: 2rem;
+  }
+}
